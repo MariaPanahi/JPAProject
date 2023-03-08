@@ -60,7 +60,7 @@ public class Salary {
     public String toString() {
         return "Salary{" +
                 "id=" + id +
-                ", empNo=" + empNo +
+                ", empNo=" + empNo.getId() +
                 ", salary=" + salary +
                 ", toDate=" + toDate +
                 '}';
