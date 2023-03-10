@@ -123,10 +123,10 @@ class SalaryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("All salaries for employee 1 has been removed"));
     }
+
     @Test
     @DisplayName("Update salary")
     void updateSalaryTest() throws Exception {
-        // Creating mock salary object
         Salary salary = new Salary();
         salary.setSalary(50000);
         salary.setToDate(LocalDate.of(2022, 12, 31));
@@ -138,46 +138,20 @@ class SalaryControllerTest {
         salary.setId(salaryId);
         salary.setEmpNo(employee);
 
-        // Setting up mock repository
         when(salaryRepository.findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1))).thenReturn(Optional.of(salary));
-        when(salaryRepository.save(any(Salary.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Performing a PATCH request to updateSalary endpoint
         mockMvc.perform(MockMvcRequestBuilders.patch("/employee/salary/1/2022-01-01")
                         .param("salary", "55000")
                         .param("toDate", "2023-12-31"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("The salary for emp_no 1 has been updated"));
+
     }
 }
-//    @Test
-//    @DisplayName("Update salary")
-//    void updateSalaryTest() throws Exception {
-//        // Creating mock salary object
-//        Salary salary = new Salary();
-//        salary.setSalary(50000);
-//        salary.setToDate(LocalDate.of(2022, 12, 31));
-//        Employee employee = new Employee();
-//        employee.setId(1);
-//        SalaryId salaryId = new SalaryId();
-//        salaryId.setFromDate(LocalDate.of(2022, 1, 1));
-//        salaryId.setEmpNo(employee.getId());
-//        salary.setId(salaryId);
-//        salary.setEmpNo(employee);
-//
-//        // Setting up mock repository
-//        when(salaryRepository.findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1))).thenReturn(Optional.of(salary));
-//
-//        // Performing a PATCH request to updateSalary endpoint
-//        mockMvc.perform(MockMvcRequestBuilders.patch("/employee/salary/1/2022-01-01")
-//                        .param("salary", "55000")
-//                        .param("toDate", "2023-12-31"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("The salary for emp_no 1 has been updated"));
-//
-////        // Verify that the repository was called with the correct parameters
-////        verify(salaryRepository, times(1)).findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1));
+
+//verify(salaryRepository, times(1)).findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1));
 ////        verify(salaryRepository, times(1)).save(salary);
 ////        assertEquals(55000, salary.getSalary());
 ////        assertEquals(LocalDate.of(2023, 12, 31), salary.getToDate());
-//    }
+//
+

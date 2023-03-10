@@ -71,14 +71,14 @@ public class SalaryController {
 
         //Update Method
     @PatchMapping("/employee/salary/{empNo}/{fromDate}")
-    public ResponseEntity<String> updateSalary(@PathVariable ("empNo") int empNo,@PathVariable ("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate fromDate, @RequestParam int Salary, @RequestParam("toDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate toDate) {
+    public ResponseEntity<String> updateSalary(@PathVariable ("empNo") int empNo,@PathVariable ("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate fromDate, @RequestParam int salary, @RequestParam("toDate") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate toDate) {
         Optional<Salary> existingSalary = salaryRepository.findSalariesByEmpNoAndFromDate(empNo,fromDate);
         if (existingSalary.isPresent()) {
             Salary updatedSalary = existingSalary.get();
-            updatedSalary.setSalary(Salary);
+            updatedSalary.setSalary(salary);
             updatedSalary.setToDate(toDate);
             salaryRepository.save(updatedSalary);
-            return new ResponseEntity<>("The salary for emp_no " + updatedSalary.getEmpNo() + " has been updated", HttpStatus.OK);
+            return new ResponseEntity<>("The salary for emp_no " + empNo + " has been updated", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("The salary for emp_no " + empNo + " does not exist", HttpStatus.NOT_FOUND);
         }
