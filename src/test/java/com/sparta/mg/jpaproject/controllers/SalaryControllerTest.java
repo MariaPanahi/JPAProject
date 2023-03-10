@@ -51,11 +51,11 @@ class SalaryControllerTest {
 
     @Test
     public void testCreateSalary() throws Exception {
-        // Mock the employeeRepository to return a mocked Employee object
+        // Mocking the employeeRepository to return a mocked Employee object
         Employee employee = mock(Employee.class);
         when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
-        // Perform a POST request to the createSalary endpoint
+        // Performing a POST request to the createSalary endpoint
         mockMvc.perform(MockMvcRequestBuilders.post("/employee/salary/1")
                         .param("salary", "50000")
                         .param("fromDate", "2022-01-01")
@@ -126,7 +126,7 @@ class SalaryControllerTest {
     @Test
     @DisplayName("Update salary")
     void updateSalaryTest() throws Exception {
-        // Create mock salary object
+        // Creating mock salary object
         Salary salary = new Salary();
         salary.setSalary(50000);
         salary.setToDate(LocalDate.of(2022, 12, 31));
@@ -138,11 +138,11 @@ class SalaryControllerTest {
         salary.setId(salaryId);
         salary.setEmpNo(employee);
 
-        // Set up mock repository
+        // Setting up mock repository
         when(salaryRepository.findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1))).thenReturn(Optional.of(salary));
         when(salaryRepository.save(any(Salary.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Perform a PATCH request to updateSalary endpoint
+        // Performing a PATCH request to updateSalary endpoint
         mockMvc.perform(MockMvcRequestBuilders.patch("/employee/salary/1/2022-01-01")
                         .param("salary", "55000")
                         .param("toDate", "2023-12-31"))
@@ -153,7 +153,7 @@ class SalaryControllerTest {
 //    @Test
 //    @DisplayName("Update salary")
 //    void updateSalaryTest() throws Exception {
-//        // Create mock salary object
+//        // Creating mock salary object
 //        Salary salary = new Salary();
 //        salary.setSalary(50000);
 //        salary.setToDate(LocalDate.of(2022, 12, 31));
@@ -165,10 +165,10 @@ class SalaryControllerTest {
 //        salary.setId(salaryId);
 //        salary.setEmpNo(employee);
 //
-//        // Set up mock repository
+//        // Setting up mock repository
 //        when(salaryRepository.findSalariesByEmpNoAndFromDate(1, LocalDate.of(2022, 1, 1))).thenReturn(Optional.of(salary));
 //
-//        // Perform a PATCH request to updateSalary endpoint
+//        // Performing a PATCH request to updateSalary endpoint
 //        mockMvc.perform(MockMvcRequestBuilders.patch("/employee/salary/1/2022-01-01")
 //                        .param("salary", "55000")
 //                        .param("toDate", "2023-12-31"))
