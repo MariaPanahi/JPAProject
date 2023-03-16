@@ -8,6 +8,7 @@ import java.util.List;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
@@ -24,5 +25,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(value = "SELECT Count(*) FROM employees.employees WHERE gender = 'F'", nativeQuery = true)
     int findAmountOfFemales ();
 
-    Employee findEmployeeById(Integer id);
+    Optional<Employee> findEmployeeById(Integer id);
 }

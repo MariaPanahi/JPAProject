@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>All Departments</title>
+</head>
+<style>
+  .table {
+    font-family: sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 25px 0;
+    font-size: 0.9em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  .table thead tr{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+  }
+  .table td, .table th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  .table tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+  .table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  .table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+  }
+  .table tbody tr.active-row {
+    font-weight: bold;
+    color: #A020F0;
+  }
+</style>
+<body><h1>All Departments</h1>
+<table class = "table">
+  <thead>
+  <tr>
+    <th>Department Number</th>
+    <th>Department Name</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="department : ${departments}">
+    <td th:text="${department.id}"></td>
+    <td th:text="${department.deptName}"></td>
+    <td><a th:href="@{/department/edit/{id}(id=${department.id})}">Edit</a></td>
+    <td>
+      <form method="post" th:action="@{/department/delete/{id}(id=${department.id})}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table><!--<div th:insert="fragments/footer"></div>--></body>
+<a th:href="@{/departmentPage}">Return to Department Page</a>
+</html>

@@ -3,31 +3,37 @@ package com.sparta.mg.jpaproject.controllers.employeecontrollers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.mg.jpaproject.model.entities.Employee;
 import com.sparta.mg.jpaproject.model.repositories.EmployeeRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.sparta.mg.jpaproject.services.ApiKeyService;
+import com.sparta.mg.jpaproject.tools.CRUD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
     private final ObjectMapper objectMapper;
+    private final ApiKeyService apiKeyService;
 
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepository, ObjectMapper objectMapper) {
+    public EmployeeController(EmployeeRepository employeeRepository, ObjectMapper objectMapper, ApiKeyService apiKeyService) {
         this.employeeRepository = employeeRepository;
         this.objectMapper = objectMapper;
+        this.apiKeyService = apiKeyService;
     }
 
     @PostMapping(value = "/employee")
-    public ResponseEntity<String> setEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<String> setEmployee(@RequestBody Employee employee,
+                                              @RequestHeader("x-api-key") String apiKey) {
 
-        if (employeeRepository.findEmployeeById(employee.getId()) == null) {
+        if (!apiKeyService.validateUser(apiKey, CRUD.CREATE)) {
+            return apiKeyService.getInvalidApiKeyResponse();
+        }
+
+        if (employeeRepository.findEmployeeById(employee.getId()).isEmpty()) {
             employeeRepository.save(employee);
             return new ResponseEntity<>(
                     "Employee " + employee + " added.",
@@ -42,9 +48,14 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/employee/{id}")
-    public ResponseEntity<String> getEmployeeById(@PathVariable Integer id) {
+    public ResponseEntity<String> getEmployeeById(@PathVariable Integer id,
+                                                  @RequestHeader("x-api-key") String apiKey) {
 
-        if (employeeRepository.findEmployeeById(id) == null) {
+        if (!apiKeyService.validateUser(apiKey, CRUD.READ)) {
+            return apiKeyService.getInvalidApiKeyResponse();
+        }
+
+        if (employeeRepository.findEmployeeById(id).isEmpty()) {
             return new ResponseEntity<>(
                    "Employee with ID " + id + " doesn't exist.",
                    new HttpHeaders(),
@@ -58,9 +69,14 @@ public class EmployeeController {
     }
 
     @PatchMapping(value = "/employee")
-    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee,
+                                                 @RequestHeader("x-api-key") String apiKey) {
 
-        if (employeeRepository.findEmployeeById(employee.getId()) == null) {
+        if (!apiKeyService.validateUser(apiKey, CRUD.UPDATE)) {
+            return apiKeyService.getInvalidApiKeyResponse();
+        }
+
+        if (employeeRepository.findEmployeeById(employee.getId()).isEmpty()) {
             return new ResponseEntity<>(
                     "Employee with ID " + employee.getId() + " doesn't exist.",
                     new HttpHeaders(),
@@ -75,10 +91,15 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "employee/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Integer id,
+                                                     @RequestHeader("x-api-key") String apiKey) {
 
-        if (employeeRepository.findEmployeeById(id) != null) {
-            employeeRepository.delete(employeeRepository.findEmployeeById(id));
+        if (!apiKeyService.validateUser(apiKey, CRUD.DELETE)) {
+            return apiKeyService.getInvalidApiKeyResponse();
+        }
+
+        if (employeeRepository.findEmployeeById(id).isPresent()) {
+            employeeRepository.delete(employeeRepository.findEmployeeById(id).get());
             return new ResponseEntity<>(
                     "Employee with ID " + id + " has been deleted.",
                     new HttpHeaders(),
