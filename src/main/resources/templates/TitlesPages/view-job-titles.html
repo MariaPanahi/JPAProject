@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Titles</title>
+</head>
+<body>
+<h1>Job Titles</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Employee Number</th>
+        <th>Title</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="title : ${titlesToView}">
+        <td th:text="${title.empNo.id}"></td>
+        <td th:text="${title.id.title}"></td>
+        <td th:text="${title.id.fromDate}"></td>
+        <td th:text="${title.toDate}"></td>
+        <td>
+            <form method="post" th:action="@{/title/edit}">
+                <input type="hidden" name="empNo" th:value="${title.empNo.id}"/>
+                <input type="hidden" name="title" th:value="${title.id.title}"/>
+                <input type="hidden" name="fromDate" th:value="${title.id.fromDate}"/>
+
+                <button type="submit" class="btn btn-danger">Edit</button>
+            </form>
+        <td>
+
+            <form method="post" th:action="@{/title/delete}">
+                <input type="hidden" name="empNo" th:value="${title.empNo.id}"/>
+                <input type="hidden" name="title" th:value="${title.id.title}"/>
+                <input type="hidden" name="fromDate" th:value="${title.id.fromDate}"/>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/}">Back</a>
+</body>
+</html>

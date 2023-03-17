@@ -20,7 +20,6 @@ import java.util.Optional;
 
 @Controller
 public class WebDept_EmpController {
-    // Faris
 
     private DeptEmpRepository deptEmpRepository;
     private EmployeeRepository employeeRepository;
@@ -29,45 +28,29 @@ public class WebDept_EmpController {
 
     @Autowired
     public WebDept_EmpController(DeptEmpRepository deptEmpRepository, EmployeeRepository employeeRepository,
-                                 DepartmentRepository departmentRepository){
-        this.deptEmpRepository =deptEmpRepository;
+                                 DepartmentRepository departmentRepository) {
+        this.deptEmpRepository = deptEmpRepository;
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
     }
 
+    // Create
+    @PreAuthorize("hasRole('ROLE_UPDATE')")
+    @GetMapping("/deptEmp/create")
+    public String createDeptEmp() {
+        return "DepartmentEmployeePages/deptEmp-add-form";
+    }
 
-    @PostMapping("deptemp/{emp}")
-    public String setEmployeeDept( Model model,
-                                   @PathVariable Integer emp,
-                                   @RequestParam("deptNo") String deptNo,
-                                   @RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-                                   @RequestParam("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {
-
-//            Optional<Employee> emp1 = employeeRepository.findById(empId);
-//            if (emp1.isPresent() && departmentRepository.findById(deptNo).isPresent()) {
-//
-//                Department dept = departmentRepository.findById(deptNo).get();
-//                DeptEmp deptEmp = new DeptEmp();
-//                deptEmp.setDeptNo(dept);
-//                deptEmp.setToDate(toDate);
-//                deptEmp.setFromDate(fromDate);
-//
-//                var deptEmpId = new DeptEmpId();
-//                deptEmpId.setDeptNo(dept.getDeptName());
-//                deptEmpRepository.save(deptEmp);
-//
-//                return ResponseEntity.ok("Department updated for Employee " + empId);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
-//            }
-        //deptEmpRepository.saveAndFlush(2);
-        model.addAttribute(emp);
-        model.addAttribute(deptNo);
-        model.addAttribute(fromDate);
-        model.addAttribute(toDate);
+    @PreAuthorize("hasRole('ROLE_UPDATE')")
+    @PostMapping("/createDeptEmp")
+    public String createDeptEmp(@ModelAttribute("DeptEmpToCreate") DeptEmp addedDeptEmp,
+                                @ModelAttribute("DeptEmpIdToCreate") DeptEmpId newDeptEmpId) {
+        addedDeptEmp.setId(newDeptEmpId);
+        deptEmpRepository.save(addedDeptEmp);
         return "dept_emp-page";
     }
 
+<<<<<<< HEAD
     @PreAuthorize("hasRole('ROLE_BASIC')")
     @GetMapping("/deptEmp/{deptNo}")
     public String getAllEmployeesOfDept(Model model, @PathVariable String deptNo) {
@@ -110,22 +93,67 @@ public class WebDept_EmpController {
         redirectAttributes.addFlashAttribute("status", "Employee's department successfully updated");
         return "redirect:/deptEmp/{empNo}?empNo=" + updatedDeptEmp.getId().getEmpNo();
     }
+=======
+    // Read
+>>>>>>> 28dd06dd4b6b4cdf23d32a93ab56998de8dfcc54
 
+    // Find All
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/deptEmp/delete/{empNo}")
-    public String deleteEmployeeDepartment(
-            @PathVariable("empNo") Integer empNo,
-            @RequestParam("deptNo") String deptNo,
-            @RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-            @RequestParam("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate,
-            RedirectAttributes redirectAttributes) {
-        DeptEmp deptEmp= new DeptEmp();
-        deptEmp.setDeptNo(departmentRepository.findById(deptNo).get());
-        deptEmp.setEmpNo(employeeRepository.findEmployeeById(empNo).get());
-        deptEmp.setFromDate(fromDate);
-        deptEmp.setToDate(toDate);
-        deptEmpRepository.deleteById(deptEmp.getId());
-        redirectAttributes.addFlashAttribute("status", "Employees Department successfully deleted");
-        return "redirect:/employee/dept_Emp?emp_No=" + empNo;
+    @GetMapping("/deptEmps")
+    public String getAllDeptEmps(Model model) {
+        List<DeptEmp> deptEmpList = deptEmpRepository.findAll().subList(0, 10);
+        model.addAttribute("deptEmps", deptEmpList);
+        return "DepartmentEmployeePages/allDeptEmps";
     }
+
+    @PreAuthorize("hasRole('ROLE_BASIC')")
+    @GetMapping("/deptEmp/find")
+    public String findDeptEmp() {
+        return "DepartmentEmployeePages/deptEmp-find-form";
+    }
+
+    @PreAuthorize("hasRole('ROLE_BASIC')")
+    @PostMapping("/findDeptEmpById")
+    public String findDeptEmp(@ModelAttribute("DeptEmpIdToCreate") DeptEmpId newDeptEmpId,
+                              String deptNo, Integer empNo, Model model
+    ) {
+        DeptEmpId deptEmpId = new DeptEmpId();
+        deptEmpId.setEmpNo(empNo);
+        deptEmpId.setDeptNo(deptNo);
+        model.addAttribute("deptEmp", deptEmpRepository.findById(deptEmpId).orElse(null));
+        return "DepartmentEmployeePages/deptEmpById";
+    }
+
+    // Update
+    @PreAuthorize("hasRole('ROLE_UPDATE')")
+    @GetMapping("/deptEmp/edit/{empNo}/{deptNo}")
+    public String getDeptEmpToEdit(@PathVariable Integer empNo,
+                                   @PathVariable String deptNo,
+                                   Model model) {
+        DeptEmpId deptEmpId = new DeptEmpId();
+        deptEmpId.setEmpNo(empNo);
+        deptEmpId.setDeptNo(deptNo);
+        DeptEmp deptEmp = deptEmpRepository.findById(deptEmpId).orElse(null);
+        model.addAttribute("employeeToEdit", deptEmp);
+        return "DepartmentEmployeePages/deptEmp-edits-form";
+    }
+
+    @PreAuthorize("hasRole('ROLE_UPDATE')")
+    @PostMapping("/updateDeptEmp")
+    public String updateEmployee(@ModelAttribute("DeptEmpToEdit") DeptEmp editedDeptEmp) {
+        deptEmpRepository.saveAndFlush(editedDeptEmp);
+        return "dept_emp-page";
+    }
+
+    //delete
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/deptEmp/delete/{empNo}/{deptNo}")
+    public String deleteEmployee(@PathVariable Integer empNo, @PathVariable String deptNo) {
+        DeptEmpId deptEmpId = new DeptEmpId();
+        deptEmpId.setEmpNo(empNo);
+        deptEmpId.setDeptNo(deptNo);
+        deptEmpRepository.deleteById(deptEmpId);
+        return "dept_emp-page";
+    }
+
 }

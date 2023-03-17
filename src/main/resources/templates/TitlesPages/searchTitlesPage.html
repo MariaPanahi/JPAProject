@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salaries Search</title>
+    <link rel="stylesheet" type="text/css" href="/css/search.css">
+</head>
+<body>
+<h1>Search for titles by Employee ID</h1>
+<form action="/viewTitles" method="get">
+    <label for="empNo">Employee ID:</label>
+    <input type="number" id="empNo" name="empNo">
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>

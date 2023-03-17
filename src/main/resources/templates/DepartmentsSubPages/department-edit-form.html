@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Actor Details</title>
+  <title>Department Details</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/css/styles.css">
 <body>
-<h1>Book Edit Form</h1>
+<h1>Department Edit Form</h1>
 <form th:action="@{/updateDepartment}" th:object="${departmentToEdit}" method="post">
   <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
   <label for="dept_name">Department Name</label>
