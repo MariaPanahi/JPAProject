@@ -70,9 +70,9 @@ public class WebDept_EmpController {
 
     @PreAuthorize("hasRole('ROLE_BASIC')")
     @GetMapping("/deptEmp/{deptNo}")
-    public String getAllEmployeesOfDept(Model model, @PathVariable Integer deptNo) {
+    public String getAllEmployeesOfDept(Model model, @PathVariable String deptNo) {
         Department dept = departmentRepository.findById(deptNo.toString()).orElse(null);
-        model.addAttribute("deptEmps", deptEmpRepository.getEmployeesByDeptNo(String.valueOf(dept)));
+        model.addAttribute("deptEmps", deptEmpRepository.getEmployeesByDeptNo(deptNo));
         return "DepartmentEmployeePages/emp_by_dept-page";
     }
 

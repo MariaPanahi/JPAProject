@@ -13,7 +13,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="department : ${departments}">
+    <tr th:each=>"department : ${departments}"
         <td th:text="${department.id}"></td>
         <td th:text="${department.deptName}"></td>
         <td>
@@ -23,8 +23,8 @@
     </form>
 </td>
 <td>
-    <form method="get" th:action="@{deptEmp/empId}">
-        <input type="hidden" name="emp_No" th:value="${deptEmp.{empId/empId}}"/>
+    <form method="get" th:action="@{deptEmp/{empNo}}">
+        <input type="hidden" name="emp_No" th:value="${deptEmp.empNo}"/>
         <input type="hidden" name="fromDate" th:value="${deptEmp.{empId}.fromDate}"/>
         <input type="hidden" name="fromDate" th:value="${deptEmp.{empId}.toDate}"/>
         <button type="submit" class="btn btn-danger">Edit</button>

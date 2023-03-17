@@ -24,10 +24,10 @@
             </form>
         </td>
         <td>
-            <form method="get" th:action="@{deptEmp/empId}">
-                <input type="hidden" name="emp_No" th:value="${deptEmp.{empId}.empId}"/>
-                <input type="hidden" name="fromDate" th:value="${deptEmp.{empId}.fromDate}"/>
-                <input type="hidden" name="fromDate" th:value="${deptEmp.{empId}.toDate}"/>
+            <form method="get" th:action="@{deptEmp/{deptNo}}">
+                <input type="hidden" name="emp_No" th:value="${deptEmp.id}"/>
+                <input type="hidden" name="fromDate" th:value="${deptEmp.firstName}"/>
+                <input type="hidden" name="fromDate" th:value="${deptEmp.lastName}"/>
                 <button type="submit" class="btn btn-danger">Edit</button>
             </form>
         </td>
