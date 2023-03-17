@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Salaries</title>
+    <meta charset="UTF-8">
+</head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+<body>
+    <h1>Salaries for Employee</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Salary</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Edit Salary</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="salary : ${salaries}">
+            <td th:text="${salary.empNo.id}"></td>
+            <td th:text="${salary.empNo.firstName}"></td>
+            <td th:text="${salary.empNo.lastName}"></td>
+            <td th:text="${salary.salary}"></td>
+            <td th:text="${salary.id.fromDate}"></td>
+            <td th:text="${salary.toDate}"></td>
+            <td>
+                <form method="get" th:action="@{/salary/edit}">
+                <input type="hidden" name="emp_No" th:value="${salary.empNo.id}"/>
+                <input type="hidden" name="fromDate" th:value="${salary.id.fromDate}"/>
+                <button type="submit" class="btn btn-danger">Edit</button>
+            </form>
+            <td>
+                <form method="post" th:action="@{/salary/delete}">
+                    <input type="hidden" name="emp_No" th:value="${salary.empNo.id}"/>
+                    <input type="hidden" name="fromDate" th:value="${salary.id.fromDate}"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div>
+        <form th:action="@{/salary/create}" method="get">
+            <input type="hidden" name="empNo" th:value="${employeeNo}" />
+            <button type="submit" class="btn btn-primary">Insert New Salary</button>
+        </form>
+    </div>
+    <br>
+    <div th:if="${status}" class="alert alert-success" role="alert">
+        <span th:text="${status}"></span>
+    </div>
+
+</body>
+</html>

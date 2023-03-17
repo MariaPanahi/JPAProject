@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Update</title>
+    <link rel="stylesheet" type="text/css" href="/css/search.css">
+</head>
+<body>
+<h1>Update Salary</h1>
+<form th:action="@{/update/employee}" th:object="${empToEdit}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{hireDate}"/>
+    <input type="hidden" th:field="*{birthDate}"/>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}"/><br/>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}"/><br/>
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" th:field="*{gender}">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select>
+    <br/>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form th:action="@{/save-customer}" th:object="${deptManager}" method="post">
+<label>Company Name: </label>
+<input type="text" value="Something is wrong" th:field="*{id.empNo}"/><br>
+<select class="form-control" th:field="*{deptNo}" id="dropOperator">
+    <option th:each="department : ${allDepartments}" th:value="${department}" th:text="${department.getDeptName()}"></option>
+</select>
+</form>
+
+</body>
+</html>

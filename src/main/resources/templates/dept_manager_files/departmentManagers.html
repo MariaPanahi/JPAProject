@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Managers</title>
+</head>
+<body>
+<h1>Managers for Department</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Department Name</th>
+        <th>Manager First Name</th>
+        <th>Manager Last Name</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Edit Department Manager</th>
+        <th>Delete Department Manager</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="deptManager : ${deptManagers}">
+        <td th:text="${deptManager.deptNo.deptName}"></td>
+        <td th:text="${deptManager.empNo.firstName}"></td>
+        <td th:text="${deptManager.empNo.lastName}"></td>
+        <td th:text="${deptManager.fromDate}"></td>
+        <td th:text="${deptManager.toDate}"></td>
+        <td>
+            <form method="get" th:action="@{/dept-manager/editDeptManager}">
+                <input type="hidden" th:name="emp_No" th:value="${deptManager.id.empNo}"/>
+                <input type="hidden" th:name="deptId" th:value="${deptManager.id.deptNo}"/>
+                <button type="submit" class="btn btn-danger">Edit</button>
+            </form>
+        <td>
+            <form method="post" th:action="@{/dept-manager/delete}">
+                <input type="hidden" th:name="emp_No" th:value="${deptManager.id.empNo}"/>
+                <input type="hidden" th:name="deptId" th:value="${deptManager.id.deptNo}"/>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<div>
+    <form th:action="@{/dept-manager/createForm}" method="get">
+        <input type="hidden" th:name="deptId" th:value="${deptId}" />
+        <button type="submit" class="btn btn-primary">Insert New Department Manager</button>
+    </form>
+</div>
+<br>
+<!--<div th:if="${status}" class="alert alert-success" role="alert">-->
+<!--    <span th:text="${status}"></span>-->
+<!--</div>-->
+</body>
+</html>

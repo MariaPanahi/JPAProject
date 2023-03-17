@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Employees</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 </head>
 <body>
-
+<div class="container">
+    <ul>
+        <li>
+            <a th:href="@{/employee/search}">Search for an Employee</a>
+        </li>
+        <li>
+            <a th:href="@{/employee/create}">Create a new Employee</a>
+        </li>
+        <li>
+            <a th:href="@{/employee/createExtra}">Create a new Employee Extra</a>
+        </li>
+    </ul>
+    <div th:if="${status}" class="alert alert-success" role="alert">
+        <span th:text="${status}"></span>
+    </div>
+</div>
 </body>
 </html>

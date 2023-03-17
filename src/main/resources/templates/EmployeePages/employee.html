@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee</title>
+    <meta charset="UTF-8">
+</head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+<body>
+    <h1>Employee Details for
+        <a th:text="${employee.firstName}"></a>
+        <a th:text="${employee.lastName}"></a>
+    </h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birth Date</th>
+            <th>Gender</th>
+            <th>Hire Date</th>
+            <th>Edit Employee</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.birthDate}"></td>
+            <td th:text="${employee.gender}"></td>
+            <td th:text="${employee.hireDate}"></td>
+            <td>
+                <form method="get" th:action="@{/employee/edit}">
+                <input type="hidden" name="emp_No" th:value="${employee.id}"/>
+                <button type="submit" class="btn btn-danger">Edit</button>
+            </form>
+            <td>
+                <form method="post" th:action="@{/employee/delete}">
+                    <input type="hidden" name="emp_No" th:value="${employee.id}"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div th:if="${status}" class="alert alert-success" role="alert">
+        <span th:text="${status}"></span>
+    </div>
+</body>
+</html>

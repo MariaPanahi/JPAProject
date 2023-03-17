@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Employee Confirmation</title>
+</head>
+<body>
+<form th:action="@{/employee/confirmExtra}" method="post">
+    <label for="firstName">First Name:</label>
+    <h3 type="text" readonly="readonly" id="firstName"
+           name="firstName" th:text="${employeeToCreateExtra.firstName}"></h3><br/>
+    <label for="lastName">Last Name:</label>
+    <h3 type="text" id="lastName" name="lastName" readonly="readonly"
+    th:text="${employeeToCreateExtra.lastName}"></h3><br/>
+    <label for="birthDate">Birth Date:</label>
+    <h3 type="text" id="birthDate" name="birthDate" readonly="readonly"
+    th:text="${employeeToCreateExtra.birthDate}"></h3><br/>
+    <label for="gender">Gender:</label>
+    <h3 type="text" readonly="readonly" id="gender" th:text="${employeeToCreateExtra.gender}"></h3>
+    <br/>
+    <label for="hireDate">Hire Date:</label>
+    <h3 type="text" id="hireDate" name="hireDate" readonly="readonly"
+    th:text="${employeeToCreateExtra.hireDate}"></h3><br/>
+    <label for="dept">Select Department</label>
+    <h3 type="text" id="dept" name="hireDate" readonly="readonly"
+           th:text="${deptName}"></h3><br/>
+    <label for="titleName">Select Title</label>
+    <h3 type="text" id="titleName" name="hireDate" readonly="readonly"
+           th:text="${titleValue}"></h3><br/>
+    <label for="salaryInput">Enter Salary</label>
+    <h3 type="text" id="salaryInput" readonly="readonly" th:text="${salaryInput}"></h3>
+    <input type="submit" value="Confirm"/>
+</form>
+</body>
+</html>

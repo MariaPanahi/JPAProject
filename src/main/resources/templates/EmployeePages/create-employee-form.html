@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Employee</title>
+    <link rel="stylesheet" type="text/css" href="/css/search.css">
+</head>
+<body>
+<h1>Create Salary</h1>
+<form th:action="@{/employee/save}" th:object="${employeeToCreate}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}"/><br/>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}"/><br/>
+    <label for="birthDate">Birth Date:</label>
+    <input type="date" id="birthDate" name="birthDate" th:field="*{birthDate}"/><br/>
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" th:field="*{gender}">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select>
+    <br/>
+    <label for="hireDate">Hire Date:</label>
+    <input type="date" id="hireDate" name="hireDate" th:field="*{hireDate}"/><br/>
+    <input type="submit" value="Create"/>
+</form>
+</body>
+</html>
